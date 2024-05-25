@@ -1,0 +1,11 @@
+<% content_for :page_title do %>
+  <%= link_to Spree.t(:sales_tax_rates), spree.admin_sales_tax_rates_url %> /
+  <%= Spree.t(:new_sales_tax_rate) %>
+<% end %>
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @sales_tax_rate } %>
+<%= form_for [:admin, @sales_tax_rate] do |f| %>
+  <fieldset>
+    <%= render partial: 'form', locals: { f: f } %>
+    <%= render partial: 'spree/admin/shared/new_resource_links' %>
+  </fieldset>
+<% end %>

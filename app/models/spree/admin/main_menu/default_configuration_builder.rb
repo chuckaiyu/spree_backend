@@ -245,7 +245,8 @@ module Spree
             ItemBuilder.new('return_authorization_reasons', admin_return_authorization_reasons_path).
               with_manage_ability_check(Spree::ReturnAuthorizationReason).
               build,
-            ItemBuilder.new('roles', admin_roles_path).with_manage_ability_check(Spree::Role).build
+            ItemBuilder.new('roles', admin_roles_path).with_manage_ability_check(Spree::Role).build,
+            ItemBuilder.new("sales_tax_rates", admin_sales_tax_rates_path).with_manage_ability_check(Spree::SalesTaxRate).build
           ]
 
           section = SectionBuilder.new('settings', 'gear-fill.svg').

@@ -1,0 +1,63 @@
+<% content_for :page_title do %>
+  <%= plural_resource_name(Spree::SalesTaxRate) %>
+<% end %>
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_sales_tax_rate), new_object_url, { class: "btn-success", icon: 'add.svg', id: 'admin_new_sales_tax_rate' } %>
+<% end if can? :create, Spree::SalesTaxRate %>
+<% content_for :table_filter do %>
+  <div data-hook="admin_menus_sidebar">
+    <%= search_form_for [:admin, @search] do |f| %>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <div class="form-group">
+            <%= f.label :zip_code_cont, Spree.t(:zip_code) %>
+            <%= f.text_field :zip_code_cont, size: 15, class: "form-control js-quick-search-target js-filterable" %>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="form-group">
+            <%= label_tag :q_state_id_eq, Spree.t(:state) %>
+            <%= f.collection_select(:state_id_eq, Spree::State.all, :id, :name, { include_blank: true }, class: 'select2-clear js-filterable') %>
+          </div>
+        </div>
+      </div>
+      <div data-hook="admin_menus_index_search_buttons" class="form-actions">
+        <%= button Spree.t(:search), 'search.svg' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<div class="table-responsive border rounded bg-white">
+  <table class="table" id='listing_countries' data-hook>
+    <thead class="text-muted">
+      <tr data-hook="tax_header">
+        <th class="text-center"><%= Spree.t(:country) %></th>
+        <th class="text-center"><%= Spree.t(:state) %></th>
+        <th class="text-center"><%= Spree.t(:zip_code) %></th>
+        <th class="text-center"><%= Spree.t(:region_name) %></th>
+        <th class="text-center"><%= Spree.t(:rate) %></th>
+        <th class="text-center"><%= Spree.t(:updated_at) %></th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sales_tax_rates.each do |sales_tax_rate| %>
+        <tr id="<%= spree_dom_id sales_tax_rate %>" data-hook="sales_tax_rate_row">
+          <td class="text-center"><%= sales_tax_rate.country.name %></td>
+          <td class="text-center"><%= sales_tax_rate.state.name %> - <%= sales_tax_rate.state.abbr %></td>
+          <td class="text-center"><%= sales_tax_rate.zip_code %></td>
+          <td class="text-center"><%= sales_tax_rate.name %></td>
+          <td class="text-center"><%= sales_tax_rate.rate %></td>
+          <td class="text-center"><%= sales_tax_rate.updated_at %></td>
+          <td class="actions">
+            <span class="d-flex justify-content-end">
+              <%= link_to_edit(sales_tax_rate, no_text: true) if can? :edit, sales_tax_rate %>
+              <%= link_to_delete(sales_tax_rate, no_text: true) if can? :delete, sales_tax_rate %>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= render 'spree/admin/shared/index_table_options', collection: @sales_tax_rates, simple: true if @sales_tax_rates.any? %>
