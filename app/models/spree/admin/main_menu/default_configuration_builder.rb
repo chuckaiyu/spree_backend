@@ -95,7 +95,7 @@ module Spree
               build,
             ItemBuilder.new('taxonomies', admin_taxonomies_path).
               with_admin_ability_check(Spree::Taxonomy).
-              with_match_path(/taxonomies/).
+              with_match_path(/taxonomies(?!.*taxons)/).
               build,
             ItemBuilder.new('taxons', admin_taxons_path).
               with_admin_ability_check(Spree::Taxon).
